@@ -5,6 +5,10 @@ Rails.application.routes.draw do
       resources :users, only: [:create]
       resources :associates 
       resources :linkedin_networks
+      resources :jobs
+      resources :applications
+      resources :companies
+      resources :interviews
       post '/login', to: 'auth#create'
       get '/profile', to: 'users#profile'
       post '/extractor', to: 'associates#extractor'
