@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_24_025013) do
+ActiveRecord::Schema.define(version: 2021_05_26_212259) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "applications", force: :cascade do |t|
+    t.string "status"
+    t.string "dateApplied"
+    t.integer "user_id"
+    t.integer "job_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "associates", force: :cascade do |t|
     t.string "fullName"
@@ -38,6 +47,37 @@ ActiveRecord::Schema.define(version: 2021_05_24_025013) do
     t.integer "linkedin_network_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "status"
+    t.string "profileImageUrl"
+  end
+
+  create_table "companies", force: :cascade do |t|
+    t.string "name"
+    t.string "linkedinUrl"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "interviews", force: :cascade do |t|
+    t.string "interviewDescription"
+    t.string "interviewDate"
+    t.string "interviewTime"
+    t.integer "user_id"
+    t.integer "application_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "jobs", force: :cascade do |t|
+    t.string "jobTitle"
+    t.string "companyName"
+    t.string "description"
+    t.string "jobPostUrl"
+    t.string "salary"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id"
+    t.string "dateApplied"
   end
 
   create_table "linkedin_networks", force: :cascade do |t|

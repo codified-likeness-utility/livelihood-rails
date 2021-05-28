@@ -33,36 +33,20 @@ class Api::V1::AssociatesController < ApplicationController
             m4sent: params['m4sent'],
             m5sent: params['m5sent'],
             lastMessageSent: params['lastMessageSent'],
+            profileImageUrl: params['profileImageUrl'],
             linkedin_network_id: linkedinNetworkId
         )
         render json: associate
     end
 
     def extractor
-        linkedinNetworkId = @user.linkedin_network.id
-        associate = Associate.create(
-            fullName: params['fullName'],
-            firstName: params['firstName'],
-            lastName:  params['lastName'],
-            company: params['company'],
-            title: params['title'],
-            profileUrl: params['profileUrl'],
-            connectionDegree: params['connectionDegree'],
-            email: params['email'],
-            linkedinPremium: params['linkedinPremium'],
-            message1: params['message1'],
-            message2: params['message2'],
-            message3: params['message3'],
-            message4: params['message4'],
-            message5: params['message5'],
-            m2sent: params['m2sent'],
-            m3sent: params['m3sent'],
-            m4sent: params['m4sent'],
-            m5sent: params['m5sent'],
-            lastMessageSent: params['lastMessageSent'],
-            linkedin_network_id: linkedinNetworkId
-        )
-        render json: associate
+        associate = Associate.find_by(profileUrl: params['profileUrl'])
+        if associate.valid?
+            associate = Associate.update(fullName: params['fullName'], connectionDegree: '1st')
+            render json: associate
+        else
+            render json: { error: 'Failed to update associate' }, status: :not_acceptable
+        end
     end
 
     def update

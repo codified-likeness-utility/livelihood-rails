@@ -3,7 +3,7 @@ class Api::V1::JobsController < ApplicationController
     def index
         user_id = decoded_token[0]['user_id']
         @user = User.find(user_id)
-        @jobs = @user.job.all
+        @jobs = @user.jobs
         render json: @jobs
     end
 
@@ -13,7 +13,9 @@ class Api::V1::JobsController < ApplicationController
             companyName: params['companyName'],
             description: params['description'],
             jobPostUrl: params['jobPostUrl'],
-            salary: params['salary']
+            salary: params['salary'],
+            dateApplied: params['dateApplied'],
+            user_id: @user.id
         )
         render json: job
     end
@@ -43,6 +45,7 @@ class Api::V1::JobsController < ApplicationController
             :companyName,
             :description,
             :jobPostUrl,
+            :dateApplied,
             :salary
         )
     end
