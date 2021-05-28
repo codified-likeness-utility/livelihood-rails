@@ -12,8 +12,9 @@ class Api::V1::ApplicationsController < ApplicationController
             status: "Applied",  #=> applied by default, interviewing, second interview, final interview, etc.
             dateApplied: params['dateApplied'], # ? double check params
             user_id: @user.id,
-            job_id: params['job_id'],# ? double check params
+            job_id: params['id'],# ? double check params
         )
+        render json: application
     end
 
     def update
@@ -21,6 +22,7 @@ class Api::V1::ApplicationsController < ApplicationController
         application.update(params.require(:application).permit(
             status: params['status']
         ))
+        render json: application
     end
 
     def destroy
