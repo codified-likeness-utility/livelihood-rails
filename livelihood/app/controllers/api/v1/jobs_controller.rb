@@ -4,7 +4,7 @@ class Api::V1::JobsController < ApplicationController
         user_id = decoded_token[0]['user_id']
         @user = User.find(user_id)
         @jobs = @user.jobs
-        render json: @jobs
+        render json: @jobs, include: [:applications]
     end
 
     def create 

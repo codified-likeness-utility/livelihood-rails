@@ -3,7 +3,7 @@ class Api::V1::ApplicationsController < ApplicationController
     def index
         user_id = decoded_token[0]['user_id']
         @user = User.find(user_id)
-        @applications = @user.application.all
+        @applications = @user.applications
         render json: @applications
     end
 
