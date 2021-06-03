@@ -21,14 +21,12 @@ class Api::V1::JobsController < ApplicationController
     end
 
     def update
-        job = Job.find(params[:id])
-        job.update(params.require(:job).permit(
-            jobTitle: params['jobTitle'],
-            companyName: params['companyName'],
+        job = @user.jobs.find_by(id: params[:id])
+        job.update(
             description: params['description'],
-            jobPostUrl: params['jobPostUrl'],
-            salary: params['salary']
-        ))
+            salary: params['salary'],
+            applications_attributes: [{id: 1, status: params['status']}]
+        )
         render json: job
     end
 
@@ -46,7 +44,8 @@ class Api::V1::JobsController < ApplicationController
             :description,
             :jobPostUrl,
             :dateApplied,
-            :salary
+            :salary,
+            applications_attributes: [:id, :status]
         )
     end
     
