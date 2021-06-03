@@ -22,10 +22,11 @@ class Api::V1::JobsController < ApplicationController
 
     def update
         job = @user.jobs.find_by(id: params[:id])
+        appId = job.applications[0].id
         job.update(
             description: params['description'],
             salary: params['salary'],
-            applications_attributes: [{id: 1, status: params['status']}]
+            applications_attributes: [{id: appId, status: params['status']}]
         )
         render json: job
     end
