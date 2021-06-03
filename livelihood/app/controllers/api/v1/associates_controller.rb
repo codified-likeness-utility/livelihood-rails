@@ -40,13 +40,20 @@ class Api::V1::AssociatesController < ApplicationController
     end
 
     def extractor
-        associate = Associate.find_by(profileUrl: params['profileUrl'])
-        if associate.valid?
-            associate = Associate.update(fullName: params['fullName'], connectionDegree: '1st')
-            render json: associate
-        else
-            render json: { error: 'Failed to update associate' }, status: :not_acceptable
-        end
+        @associate = Associate.exists?(profileUrl: params['profileUrl']) ?
+            Associate.where(profileUrl: params['profileUrl']).update(
+                fullName: params['fullName'], 
+                connectionDegree: params['connectionDegree']) :
+            Associate.create!(
+                fullName: params['fullName'],
+                firstName: params['firstName'],
+                lastName: params['lastName'],
+                title: params['title'],
+                profileImageUrl: params['profileImageUrl'],
+                connectionDegree: params['connectionDegree'],
+                linkedin_network_id: @user.linkedin_network.id
+            )
+            render json: @associate
     end
 
     def update
@@ -99,6 +106,7 @@ private
             :m4sent,
             :m5sent,
             :lastMessageSent,
+            :profileImageUrl,
             :linkedin_network_id
         )
     end
